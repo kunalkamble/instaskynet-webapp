@@ -26,4 +26,10 @@ Please access the official [Support](https://instasky.net/support) page provided
  
  - [GatsbyJS](https://www.gatsbyjs.org/)
 
+<br />
 
+### Potential Plugins to integrate
+ - https://www.uptickhq.com/react-keyed-file-browser/
+ - https://developer.box.com/guides/embed/ui-elements/installation/
+ - https://editorjs.io/
+ - https://ace.c9.io/
