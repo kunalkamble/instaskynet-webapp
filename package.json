@@ -11,6 +11,8 @@
     "email": "kunal@kunalkamble.com"
   },
   "dependencies": {
+    "ace-builds": "^1.4.8",
+    "deni-react-treeview": "^0.2.20",
     "ftp-deploy": "^2.3.3",
     "gatsby": "^2.4.3",
     "gatsby-plugin-manifest": "^2.1.1",
@@ -20,17 +22,20 @@
     "gatsby-plugin-sitemap": "^2.2.10",
     "node-sass": "^4.12.0",
     "react": "^16.8.6",
+    "react-ace": "^8.0.0",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1",
     "react-images": "^0.5.19",
     "react-scrollspy": "^3.4.0",
+    "react-search-box": "^2.0.2",
+    "skylink": "^1.0.1-rc.1",
     "smoothscroll-polyfill": "^0.4.4"
   },
   "scripts": {
     "deploy": "gatsby clean && gatsby build && firebase deploy",
     "deploy_gh": "npm run clean && gatsby build --prefix-paths && gh-pages -d public",
     "start": "gatsby clean && gatsby develop",
-    "develop": "gatsby develop",
+    "develop": "node --max-http-header-size=81000 && gatsby develop",
     "build": "npm run clean && gatsby build",
     "serve": "gatsby serve",
     "clean": "rimraf .cache public",

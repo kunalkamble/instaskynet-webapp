@@ -28,6 +28,7 @@ body {
 // Based on css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice
 html {
   box-sizing: border-box;
+  height: 100%;
 }
 
 *,
@@ -39,6 +40,7 @@ html {
 body,
 .main-body {
   background: _palette(bg);
+  height: 100%;
 
   // Stops initial animations until page loads.
   &.is-preload {
@@ -58,5 +60,13 @@ body,
       @include vendor('animation', 'none !important');
       @include vendor('transition', 'none !important');
     }
+  }
+
+  .deni-react-treeview-container { 
+    position: fixed;
+    height: calc(100% - 60px);
+    border: 0px;
+    width: 300px;
+    margin-top: 40px;
   }
 }
