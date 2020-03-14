@@ -1,19 +1,34 @@
 import React, {Component} from 'react';
+import { render } from "react-dom";
 import skylink from 'skylink'
-import Layout from '../components/Layout';
-import TreeExplorer from '../components/TreeExplorer';
 import ReactSearchBox from 'react-search-box'
-
 import AceEditor from "react-ace";
-import "ace-builds/src-noconflict/mode-java";
-import "ace-builds/src-noconflict/mode-javascript";
-import "ace-builds/src-noconflict/mode-css";
-import "ace-builds/src-noconflict/mode-scss";
-import "ace-builds/src-noconflict/mode-html";
-import "ace-builds/src-noconflict/mode-haml";
-import "ace-builds/src-noconflict/mode-php";
 import "ace-builds/src-noconflict/theme-twilight";
 
+import Layout from '../components/Layout';
+import TreeExplorer from '../components/TreeExplorer';
+const languages = [
+  "javascript",
+  "java",
+  "python",
+  "xml",
+  "ruby",
+  "sass",
+  "markdown",
+  "mysql",
+  "json",
+  "html",
+  "handlebars",
+  "golang",
+  "csharp",
+  "elixir",
+  "typescript",
+  "css"
+];
+languages.forEach(lang => {
+  require(`ace-builds/src-noconflict/mode-${lang}`);
+  require(`ace-builds/src-noconflict/snippets/${lang}`);
+});
 
 class ExplorePage extends Component {
   constructor(props) {
@@ -54,9 +69,9 @@ class ExplorePage extends Component {
       }
     };
   }
+
   addTextKey(data, counter) {
     for (let item in data) {
-        // console.log(item)
         data['text'] = data.name
         data['id'] = counter
         if(item === 'type' && data[item] === 'file') data['isLeaf'] = true
@@ -65,13 +80,11 @@ class ExplorePage extends Component {
             counter = counter + 1
             this.addTextKey(data.children[key], counter)
           }
-          // data.children.forEach(element => {
-              
-          // });
         }
     }
     counter = counter + 1
   }
+
   getData() {
     skylink.explore(this.state.basePath).then(d => {
       this.addTextKey(d, 1)
@@ -82,24 +95,24 @@ class ExplorePage extends Component {
       },100)
     })
   }
-onLinkChange(link) {
-  if(link && link.length > 20) {
-    const http = link.split('//')[0]
-    const host = link.split('//')[1].split('/')[0]
-    const uniqueLink = link.split('//')[1].split('/')[1]
-    const path = `${http}//${host}/${uniqueLink}`
-    this.setState({basePath: path.trim()}, () => {
-      this.getData()
-    })
-  } 
-}
+
+  onLinkChange(link) {
+    if(link && link.length > 20) {
+      const http = link.split('//')[0]
+      const host = link.split('//')[1].split('/')[0]
+      const uniqueLink = link.split('//')[1].split('/')[1]
+      const path = `${http}//${host}/${uniqueLink}`
+      this.setState({basePath: path.trim()}, () => {
+        this.getData()
+      })
+    } 
+  }
   onSelectItem(item) {
     const { allowedFileTypes } = this.state
       skylink.getFileContent(`${this.state.basePath}/${item.path}`).then( data => {
         const fileType = item.contenttype.split('/').pop()
         if(allowedFileTypes.indexOf(fileType) !== -1) {
           this.setState((state, props) => {
-            console.log('item.type', fileType)
             return {editorData: data, editorFileType: fileType};
           });
         } else {
@@ -109,16 +122,12 @@ onLinkChange(link) {
         }
       })
   }
-  componentWillMount() {
-    // this.getData()
-  }
 
   render() {
     const { basePath, selectedItem, 
       data, container, editorData, editorFileType, 
       aceEditorStyles, headerStyle, 
       headerSearchBox } = this.state;
-    console.log('selectedItem -> ', selectedItem)
     return (
       <Layout>
         <div style={headerStyle}>
@@ -131,14 +140,14 @@ onLinkChange(link) {
         </div>
         <TreeExplorer onSelectItem={this.onSelectItem} data={data}  />
         <div style={container}>
-          <AceEditor
-            style={aceEditorStyles}
-            mode={editorFileType}
-            theme="twilight"
-            value={editorData}
-            name="SKYLINK_EDITOR_1"
-            editorProps={{ $blockScrolling: true }}
-          />
+              <AceEditor
+                style={aceEditorStyles}
+                mode={editorFileType}
+                theme="twilight"
+                value={editorData}
+                name="SKYLINK_EDITOR_1"
+                editorProps={{ $blockScrolling: true }}
+              />
         </div>
       </Layout>
     )

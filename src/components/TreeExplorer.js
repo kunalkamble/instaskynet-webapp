@@ -1,7 +1,4 @@
 import React, {PureComponent} from 'react';
-// import PropTypes from 'prop-types';
-
-// import {Treebeard} from 'react-treebeard';
 import TreeView from 'deni-react-treeview';
 
 class TreeExplorer extends PureComponent {
@@ -18,10 +15,8 @@ class TreeExplorer extends PureComponent {
         this.onToggle = this.onToggle.bind(this);
     }
     
-    
     onToggle(node, toggled){
         const {cursor} = this.props;
-        // this.getData()
         if (cursor) {
             this.setState(() => ({cursor, active: false}));
         }
@@ -38,7 +33,7 @@ class TreeExplorer extends PureComponent {
             <TreeView items={ data } 
                 onSelectItem={ ((item) => {
                         onSelectItem(item) 
-                    }).bind(this)
+                    })
                 }
                 theme="moonlight" 
                 style={spanStyles} />
