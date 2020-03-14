@@ -1,48 +1,45 @@
 import React, {Component} from 'react';
-import { render } from "react-dom";
 import skylink from 'skylink'
 import ReactSearchBox from 'react-search-box'
-import AceEditor from "react-ace";
-import "ace-builds/src-noconflict/theme-twilight";
-
+import dynamic from 'next/dynamic'
 import Layout from '../components/Layout';
-import TreeExplorer from '../components/TreeExplorer';
-const languages = [
-  "javascript",
-  "java",
-  "python",
-  "xml",
-  "ruby",
-  "sass",
-  "markdown",
-  "mysql",
-  "json",
-  "html",
-  "handlebars",
-  "golang",
-  "csharp",
-  "elixir",
-  "typescript",
-  "css"
-];
-languages.forEach(lang => {
-  require(`ace-builds/src-noconflict/mode-${lang}`);
-  require(`ace-builds/src-noconflict/snippets/${lang}`);
-});
+
+const TreeView = dynamic(import('deni-react-treeview'), {
+  ssr: false
+})
+
+const AceEditor = dynamic(
+  async () => {
+    const ace = await import('react-ace');
+    await import("ace-builds/src-noconflict/theme-twilight");
+    await import("ace-builds/src-noconflict/mode-javascript");
+    await import("ace-builds/src-noconflict/mode-html");
+    await import("ace-builds/src-noconflict/mode-java");
+    await import("ace-builds/src-noconflict/mode-css");
+    await import("ace-builds/src-noconflict/mode-scss");
+    await import("ace-builds/src-noconflict/mode-php");
+    await import("ace-builds/src-noconflict/mode-python");
+    await import("ace-builds/src-noconflict/mode-haml");
+    return ace;
+  },
+  {
+    // eslint-disable-next-line react/display-name
+    ssr: false,
+  },
+);
 
 class ExplorePage extends Component {
   constructor(props) {
     super(props);
-    this.onSelectItem = this.onSelectItem.bind(this)
     this.state = {
-      basePath: '',
+      baseUrlPath: 'https://siasky.dev/_A5w9UBSNczl5kFwkn8CD_aAOV62Thwk2_E9yIU1sMWP2w',
       selectedItem: '',
       searchSkylink: '',
       data: [],
       dropDownData: [],
       editorData: '<p>Hello from Skylink Editor v1.0.1!</p>',
       editorFileType: 'html',
-      allowedFileTypes: ['javascript', 'css', 'java', 'html', 'htm', 'scss', 'haml', 'php'],
+      allowedFileTypes: ['javascript', 'css', 'java', 'html', 'scss', 'haml', 'php'],
       aceEditorStyles: {
         height: '100%',
         width: '100%',
@@ -66,6 +63,11 @@ class ExplorePage extends Component {
       headerSearchBox: {
         marginLeft: '150px',
         width: '300px'
+      },
+      spanStyles: {
+        position: 'fixed',
+        height: 'calc(100% - 60px)',
+        border: 0
       }
     };
   }
@@ -86,9 +88,12 @@ class ExplorePage extends Component {
   }
 
   getData() {
-    skylink.explore(this.state.basePath).then(d => {
+    console.log('Getting data........')
+    skylink.explore(this.state.baseUrlPath).then(d => {
+      console.log(d)
       this.addTextKey(d, 1)
       setTimeout(()=>{
+        console.log('Setting state for data.......')
         this.setState((state, props) => {
           return {data: [d]};
         });
@@ -97,57 +102,83 @@ class ExplorePage extends Component {
   }
 
   onLinkChange(link) {
+    console.log(link)
     if(link && link.length > 20) {
       const http = link.split('//')[0]
       const host = link.split('//')[1].split('/')[0]
       const uniqueLink = link.split('//')[1].split('/')[1]
       const path = `${http}//${host}/${uniqueLink}`
-      this.setState({basePath: path.trim()}, () => {
+      this.setState({baseUrlPath: path.trim()}, () => {
         this.getData()
       })
     } 
   }
-  onSelectItem(item) {
+
+  onSelectItems(item) {
     const { allowedFileTypes } = this.state
-      skylink.getFileContent(`${this.state.basePath}/${item.path}`).then( data => {
-        const fileType = item.contenttype.split('/').pop()
-        if(allowedFileTypes.indexOf(fileType) !== -1) {
-          this.setState((state, props) => {
-            return {editorData: data, editorFileType: fileType};
-          });
-        } else {
-          this.setState((state, props) => {
-            return {editorData: '<h2>File format is not supported</h2>', editorFileType: 'html'};
-          });
-        }
-      })
+    skylink.getFileContent(`${this.state.baseUrlPath}/${item.path}`).then( data => {
+      const fileType = item.contenttype.split('/').pop()
+      if(allowedFileTypes.indexOf(fileType) !== -1) {
+        this.setState((state, props) => {
+          return {editorData: data, editorFileType: fileType};
+        });
+      } else {
+        this.setState((state, props) => {
+          return {editorData: '<h2>File format is not supported</h2>', editorFileType: fileType};
+        });
+      }
+    })
+  }
+
+  renderEditor() {
+
+  }
+
+  componentDidMount() {
+    this.getData()
   }
 
   render() {
-    const { basePath, selectedItem, 
+    const { baseUrlPath, selectedItem, 
       data, container, editorData, editorFileType, 
-      aceEditorStyles, headerStyle, 
-      headerSearchBox } = this.state;
+      aceEditorStyles, headerStyle,
+      allowedFileTypes, 
+      headerSearchBox, spanStyles } = this.state;
+      let editor
+      if (allowedFileTypes.indexOf(editorFileType) >= 0) {
+        editor = <AceEditor
+          style={aceEditorStyles}
+          mode={editorFileType}
+          theme="twilight"
+          value={editorData}
+          name="SKYLINK_EDITOR_1"
+          editorProps={{ $blockScrolling: true }}
+        />
+      } else {
+        editor = 'Soon we will be supporting this file format'
+      }
+      console.log('render view with new data........')
+
     return (
       <Layout>
         <div style={headerStyle}>
           <ReactSearchBox
             style={headerSearchBox}
             placeholder="Paste your Skylink here"
-            value={basePath}
+            value={baseUrlPath}
             onChange={ (link) => this.onLinkChange(link)}
           />
         </div>
-        <TreeExplorer onSelectItem={this.onSelectItem} data={data}  />
-        <div style={container}>
-              <AceEditor
-                style={aceEditorStyles}
-                mode={editorFileType}
-                theme="twilight"
-                value={editorData}
-                name="SKYLINK_EDITOR_1"
-                editorProps={{ $blockScrolling: true }}
-              />
+        <TreeView items={data}
+            onSelectItem={((item) => {
+                this.onSelectItems(item)
+            })
+            }
+            theme="moonlight"
+            style={spanStyles}
+        />
+        <div style={container}> 
+            {editor}
         </div>
       </Layout>
     )
