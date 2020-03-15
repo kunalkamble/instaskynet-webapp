@@ -20,6 +20,7 @@ class IndexPage extends Component {
     this.state = {
       baseUrlPath: 'https://siasky.dev/GAD8NUtPi8DcPUKzaoCkZ6NXphtuirH7tBl44FqwflWXnw',
       viewerIsOpen: false,
+      galleryImages: [],
       currImg: 0,
       fileViewerStyle: {
         width: '100%'
@@ -34,6 +35,7 @@ class IndexPage extends Component {
       allowedImageTypes: ['png', 'PNG', 'jpeg', 'jpg', 'bmp', 'gif', 'svg'],
       container: {
         position: 'fixed',
+        overflowY: 'auto',
         height: '100%',
         width: 'calc(100% - 310px)',
         marginLeft: '310px',
@@ -116,7 +118,7 @@ class IndexPage extends Component {
     const { baseUrlPath, fileViewerStyle,
       data, container, editorData, editorFileType, headerStyle,
       allowedFileTypes, allowedImageTypes, allowedMediaFiles, isLoading, loadingStyle,
-      headerSearchBox } = this.state;
+      headerSearchBox, galleryImages } = this.state;
       let loading
       if (isLoading) {
         loading = <Loader
@@ -135,14 +137,8 @@ class IndexPage extends Component {
         editor = <FileEditor editorFileType={editorFileType} editorData={editorData} />
 
       } else if (allowedImageTypes.indexOf(editorFileType) >= 0) {
-        const img = {
-          title: editorData.split('/').pop().split('.')[0],
-          desc: editorData.split('/').pop(),
-          thumbnail: editorData,
-          src: editorData
-        }
         editor = <Gallery 
-          images={[img]}
+            images={galleryImages}
           />
       } else if (allowedMediaFiles.indexOf(editorFileType) >= 0) {
         editor = <FileViewer

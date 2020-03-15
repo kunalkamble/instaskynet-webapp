@@ -55,7 +55,7 @@ class FileEditor extends Component {
 
 FileEditor.displayName = 'FileEditor';
 FileEditor.propTypes = {
-  editorData: PropTypes.array,
+  editorData: PropTypes.string,
   aceEditorStyles: PropTypes.string
 };
 

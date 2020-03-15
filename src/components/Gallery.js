@@ -9,6 +9,9 @@ class Gallery extends Component {
     this.state = {
       lightboxIsOpen: false,
       currentImage: 0,
+      style: {
+        display: 'inline-block'
+      }
     };
 
     this.closeLightbox = this.closeLightbox.bind(this);
@@ -53,12 +56,12 @@ class Gallery extends Component {
   }
   renderGallery() {
     const { images } = this.props;
-
+    const { style } = this.state
     if (!images) return;
 
     const gallery = images.map((obj, i) => {
       return (
-        <article className="thumb" key={obj.src}>
+        <article style={style} className="thumb" key={obj.src}>
           <span
             style={{
               backgroundImage: `url(${obj.src})`,
