@@ -5,66 +5,30 @@ import dynamic from 'next/dynamic';
 import { v4 as uuidv4 } from 'uuid';
 import Layout from '../components/Layout';
 import Gallery from '../components/Gallery';
+import FileEditor from '../components/FileEditor';
+import FolderView from '../components/FolderView';
 
-/**
- * https://siasky.net/GAD8NUtPi8DcPUKzaoCkZ6NXphtuirH7tBl44FqwflWXnw
- * https://siasky.net/AAAshTX3kgBbpqHYh0v_k7CxSUeXOpiCntZEvcl_d3tSWQ
- * https://siasky.net/AAA-1TyBEM0nCIYo2mhhvNnwjeZ9c_ww9JN7X2wyCKdRqQ
- */
-
-const TreeView = dynamic(import('deni-react-treeview'), {
-  ssr: false
-})
 const FileViewer = dynamic(import('react-file-viewer'), {
   ssr: false
 })
-const AceEditor = dynamic(
-  async () => {
-    const ace = await import('react-ace');
-    await import("ace-builds/src-noconflict/theme-twilight");
-    await import("ace-builds/src-noconflict/mode-javascript");
-    await import("ace-builds/src-noconflict/mode-html");
-    await import("ace-builds/src-noconflict/mode-java");
-    await import("ace-builds/src-noconflict/mode-css");
-    await import("ace-builds/src-noconflict/mode-scss");
-    await import("ace-builds/src-noconflict/mode-php");
-    await import("ace-builds/src-noconflict/mode-python");
-    await import("ace-builds/src-noconflict/mode-haml");
-    await import("ace-builds/src-noconflict/mode-markdown");
-    await import("ace-builds/src-noconflict/mode-json");
-    await import("ace-builds/src-noconflict/mode-text");
-    return ace;
-  },
-  {
-    // eslint-disable-next-line react/display-name
-    ssr: false,
-  },
-);
 
 class IndexPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       baseUrlPath: 'https://siasky.dev/GAD8NUtPi8DcPUKzaoCkZ6NXphtuirH7tBl44FqwflWXnw',
-      selectedItem: '',
-      searchSkylink: '',
-      data: [],
-      dropDownData: [],
-      editorData: '<p>Hello from Skylink Viewer v1.0.1!</p>',
-      editorFileType: 'html',
-      allowedFileTypes: ['javascript', 'css', 'java', 'html', 'scss', 'haml', 
-      'php', 'markdown', 'md', 'js', 'json', 'log', 'text'],
-      allowedMediaFiles: ['pdf', 'csv', 'xls', 'xlsx', 'docx', 'mp4', 'MP4', 'webm', 'mp3', 'MP3'],
-      allowedImageTypes: ['png', 'PNG', 'jpeg', 'jpg', 'bmp', 'gif', 'svg'],
       viewerIsOpen: false,
       currImg: 0,
-      aceEditorStyles: {
-        height: '100%',
-        width: '100%',
-      },
       fileViewerStyle: {
         width: '100%'
       },
+      data: [],
+      editorData: '<p>Hello from Skylink Viewer v1.0.1!</p>',
+      editorFileType: 'html',
+      allowedFileTypes: ['javascript', 'css', 'java', 'html', 'scss', 'haml',
+                'php', 'markdown', 'md', 'js', 'json', 'log', 'text'],
+      allowedMediaFiles: ['pdf', 'csv', 'xls', 'xlsx', 'docx', 'mp4', 'MP4', 'webm', 'mp3', 'MP3'],
+      allowedImageTypes: ['png', 'PNG', 'jpeg', 'jpg', 'bmp', 'gif', 'svg'],
       container: {
         position: 'fixed',
         height: '100%',
@@ -76,10 +40,6 @@ class IndexPage extends Component {
         padding: '0px 0px',
         width: '100%',
         zIndex: 1
-      },
-      headerSpan: {
-        fontSize: '20px',
-        fontWeight: '600'
       },
       headerSearchBox: {
         marginLeft: '150px',
@@ -120,8 +80,11 @@ class IndexPage extends Component {
     })
   }
 
+  updateLinkData(data) {
+    this.setState({ ...data });
+  }
+
   onLinkChange(link) {
-    // console.log(link)
     if(link && link.length > 20) {
       link = link.replace('.net', '.dev')
       const http = link.split('//')[0]
@@ -134,68 +97,21 @@ class IndexPage extends Component {
     } 
   }
 
-  onSelectItems(item) {
-    const { allowedFileTypes, allowedImageTypes, allowedMediaFiles } = this.state
-    const filePath = `${this.state.baseUrlPath}/${item.path}`
-    let fileExtension = item.path.split('.').pop()
-    // console.log('fileExtension', fileExtension)
-    if (allowedFileTypes.indexOf(fileExtension) >= 0){
-      skylink.getFileContent(filePath).then( data => {
-        // console.log('fileExtension ----> ', fileExtension)
-        fileExtension = item.contenttype.split('/').pop()
-        if(fileExtension === 'octet-stream') fileExtension = 'text'
-        if(allowedFileTypes.indexOf(fileExtension) !== -1) {
-          this.setState((state, props) => {
-            if(fileExtension === 'json') data = JSON.stringify(data)
-            return {editorData: data, editorFileType: fileExtension};
-          });
-        } else {
-          this.setState((state, props) => {
-            return {editorData: '<h2>File format is not supported</h2>', editorFileType: fileExtension};
-          });
-        }
-      })
-    } else if (allowedImageTypes.indexOf(fileExtension) >= 0){
-      this.setState((state, props) => {
-        return {editorData: filePath, editorFileType: fileExtension};
-      });
-    } else if (allowedMediaFiles.indexOf(fileExtension) >= 0) {
-      this.setState((state, props) => {
-        // console.log({filePath, fileExtension})
-        return {editorData: filePath, editorFileType: fileExtension};
-      });
-    } else {
-      this.setState((state, props) => {
-        return {editorData: '<h2>File format is not supported</h2>', editorFileType: fileExtension};
-      });
-    }
-  }
-
-  renderEditor() {
-
-  }
-
   componentDidMount() {
     this.getData()
   }
 
   render() {
-    const { baseUrlPath, allowedMediaFiles, fileViewerStyle,
-      data, container, editorData, editorFileType, 
-      aceEditorStyles, headerStyle,
-      allowedFileTypes, allowedImageTypes,
-      headerSearchBox, spanStyles } = this.state;
+    const { baseUrlPath, fileViewerStyle,
+      data, container, editorData, editorFileType, headerStyle,
+      allowedFileTypes, allowedImageTypes, allowedMediaFiles,
+      headerSearchBox } = this.state;
       let editor
-      // console.log('editorFileType--------> ', editorFileType)
+      console.log('editorFileType--------> ', editorData)
       if (allowedFileTypes.indexOf(editorFileType) >= 0) {
-        editor = <AceEditor
-          style={aceEditorStyles}
-          mode={editorFileType}
-          theme="twilight"
-          value={editorData}
-          name="SKYLINK_EDITOR_1"
-          editorProps={{ $blockScrolling: true }}
-        />
+
+        editor = <FileEditor editorFileType={editorFileType} editorData={editorData} />
+
       } else if (allowedImageTypes.indexOf(editorFileType) >= 0) {
         const img = {
           title: editorData.split('/').pop().split('.')[0],
@@ -227,15 +143,10 @@ class IndexPage extends Component {
             onChange={ (link) => this.onLinkChange(link)}
           />
         </div>
-        <TreeView 
-          items={data}
-          onSelectItem={
-            ((item) => {
-              this.onSelectItems(item)
-            })
-          }
-          theme="moonlight"
-          style={spanStyles}
+        <FolderView 
+          data={data} 
+          baseUrlPath={baseUrlPath} 
+          updateLinkData={this.updateLinkData.bind(this)} 
         />
         <div style={container}> 
             {editor}
