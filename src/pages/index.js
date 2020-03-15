@@ -107,7 +107,6 @@ class IndexPage extends Component {
       allowedFileTypes, allowedImageTypes, allowedMediaFiles,
       headerSearchBox } = this.state;
       let editor
-      console.log('editorFileType--------> ', editorData)
       if (allowedFileTypes.indexOf(editorFileType) >= 0) {
 
         editor = <FileEditor editorFileType={editorFileType} editorData={editorData} />

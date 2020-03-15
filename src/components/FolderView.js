@@ -3,10 +3,6 @@ import React, { Component } from 'react';
 import skylink from 'skylink';
 import dynamic from 'next/dynamic';
 
-const TreeView = dynamic(import('deni-react-treeview'), {
-    ssr: false
-})
-
 class FolderView extends Component {
     constructor() {
         super();
@@ -39,24 +35,16 @@ class FolderView extends Component {
                 fileExtension = item.contenttype.split('/').pop()
                 if (fileExtension === 'octet-stream') fileExtension = 'text'
                 if (allowedFileTypes.indexOf(fileExtension) !== -1) {
-
                     if (fileExtension === 'json') data = JSON.stringify(data)
-
                     updateLinkData({ editorData: data, editorFileType: fileExtension });
-
                 } else {
-
                     updateLinkData({ editorData: '<h2>File format is not supported</h2>', editorFileType: fileExtension });
-
                 }
             })
         } else if (allowedImageTypes.indexOf(fileExtension) >= 0) {
-
             updateLinkData({ editorData: filePath, editorFileType: fileExtension });
         } else if (allowedMediaFiles.indexOf(fileExtension) >= 0) {
-
             updateLinkData({ editorData: filePath, editorFileType: fileExtension });
-
         } else {
             updateLinkData({ editorData: '<h2>File format is not supported</h2>', editorFileType: fileExtension })
         }
@@ -64,6 +52,9 @@ class FolderView extends Component {
 
 
     render() {
+        const TreeView = dynamic(import('deni-react-treeview'), {
+            ssr: false
+        })
         const { data } = this.props
         const { spanStyles } = this.state
         return (
