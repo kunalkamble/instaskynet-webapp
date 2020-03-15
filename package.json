@@ -15,6 +15,7 @@
     "deni-react-treeview": "^0.2.20",
     "ftp-deploy": "^2.3.3",
     "gatsby": "^2.4.3",
+    "gatsby-plugin-ipfs": "^2.0.2",
     "gatsby-plugin-manifest": "^2.1.1",
     "gatsby-plugin-offline": "^2.1.0",
     "gatsby-plugin-react-helmet": "^3.0.12",
@@ -36,11 +37,11 @@
     "uuid": "^7.0.2"
   },
   "scripts": {
-    "deploy": "gatsby clean && gatsby build && firebase deploy",
+    "deploy": "gatsby clean && gatsby build --prefix-paths && firebase deploy",
     "deploy_gh": "npm run clean && gatsby build --prefix-paths && gh-pages -d public",
     "start": "gatsby clean && gatsby develop",
     "develop": "node --max-http-header-size=81000 && gatsby develop",
-    "build": "npm run clean && gatsby build",
+    "build": "npm run clean && gatsby build --prefix-paths",
     "serve": "gatsby serve",
     "clean": "gatsby clean && rimraf .cache public",
     "format": "prettier --write '**/*.js'",

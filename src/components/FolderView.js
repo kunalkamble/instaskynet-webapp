@@ -27,7 +27,7 @@ class FolderView extends Component {
     }
 
     onSelectItems(item) {
-        console.log(item)
+        console.log('Item clicked: ', item.name)
         if(item.type == 'file') {
             const { allowedFileTypes, allowedImageTypes, allowedMediaFiles } = this.state
             const { updateLinkData } = this.props
@@ -62,6 +62,7 @@ class FolderView extends Component {
                 updateLinkData({ editorData: '<h2>File format is not supported</h2>', editorFileType: fileExtension })
             }
         } else if (item.type === 'folder') {
+            console.log('Folder clicked: ', item.name)
             const { allowedImageTypes } = this.state
             const { updateLinkData } = this.props
             const images = []
@@ -69,7 +70,7 @@ class FolderView extends Component {
                 if(child.type == 'file') {
                     // console.log(child)
                     let fileExtension = child.path.split('.').pop()
-                    console.log('fileExtension', fileExtension, child)
+                    // console.log('fileExtension', fileExtension, child)
                     if (allowedImageTypes.indexOf(fileExtension) >= 0) {
                         const filePath = `${this.props.baseUrlPath}/${child.path}`
                         images.push({
@@ -84,7 +85,7 @@ class FolderView extends Component {
             if(images.length) {
                 updateLinkData({galleryImages: images, editorFileType: 'jpg'})
             }
-            console.log(images)   
+            // console.log(images)   
         }
     }
 
