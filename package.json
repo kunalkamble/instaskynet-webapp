@@ -28,6 +28,7 @@
     "react-file-viewer": "^1.2.1",
     "react-helmet": "^5.2.1",
     "react-images": "^0.5.19",
+    "react-loader-spinner": "^3.1.5",
     "react-scrollspy": "^3.4.0",
     "react-search-box": "^2.0.2",
     "skylink": "^1.0.1-rc.1",

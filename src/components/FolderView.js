@@ -30,6 +30,7 @@ class FolderView extends Component {
         let fileExtension = item.path.split('.').pop()
         // console.log('fileExtension', fileExtension)
         if (allowedFileTypes.indexOf(fileExtension) >= 0) {
+            updateLinkData({isLoading: true})
             skylink.getFileContent(filePath).then(data => {
                 // console.log('fileExtension ----> ', fileExtension)
                 fileExtension = item.contenttype.split('/').pop()
@@ -40,6 +41,7 @@ class FolderView extends Component {
                 } else {
                     updateLinkData({ editorData: '<h2>File format is not supported</h2>', editorFileType: fileExtension });
                 }
+                updateLinkData({isLoading: false})
             })
         } else if (allowedImageTypes.indexOf(fileExtension) >= 0) {
             updateLinkData({ editorData: filePath, editorFileType: fileExtension });

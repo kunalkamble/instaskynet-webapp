@@ -2,12 +2,14 @@ import React, {Component} from 'react';
 import skylink from 'skylink';
 import ReactSearchBox from 'react-search-box';
 import dynamic from 'next/dynamic';
+import Loader from 'react-loader-spinner';
 import { v4 as uuidv4 } from 'uuid';
 import Layout from '../components/Layout';
 import Gallery from '../components/Gallery';
 import FileEditor from '../components/FileEditor';
 import FolderView from '../components/FolderView';
 
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 const FileViewer = dynamic(import('react-file-viewer'), {
   ssr: false
 })
@@ -22,6 +24,7 @@ class IndexPage extends Component {
       fileViewerStyle: {
         width: '100%'
       },
+      isLoading: false,
       data: [],
       editorData: '<p>Hello from Skylink Viewer v1.0.1!</p>',
       editorFileType: 'html',
@@ -35,6 +38,13 @@ class IndexPage extends Component {
         width: 'calc(100% - 310px)',
         marginLeft: '310px',
         marginTop: '40px',
+      },
+      loadingStyle: {
+        zIndex: '9',
+        position: 'relative',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: '30%',
       },
       headerStyle: {
         padding: '0px 0px',
@@ -68,13 +78,14 @@ class IndexPage extends Component {
 
   getData() {
     console.log('Getting data........')
+    this.setState({isLoading: true})
     skylink.explore(this.state.baseUrlPath).then(d => {
       // console.log(d)
       this.addTextKey(d, 1)
       setTimeout(()=>{
         console.log('Setting state for data.......')
         this.setState((state, props) => {
-          return {data: [d]};
+          return {data: [d], isLoading: false};
         });
       },100)
     })
@@ -104,8 +115,20 @@ class IndexPage extends Component {
   render() {
     const { baseUrlPath, fileViewerStyle,
       data, container, editorData, editorFileType, headerStyle,
-      allowedFileTypes, allowedImageTypes, allowedMediaFiles,
+      allowedFileTypes, allowedImageTypes, allowedMediaFiles, isLoading, loadingStyle,
       headerSearchBox } = this.state;
+      let loading
+      if (isLoading) {
+        loading = <Loader
+            style={loadingStyle}
+            type="TailSpin"
+            color="#00BFFF"
+            height={100}
+            width={100}
+          />
+      } else {
+        loading = ''
+      }
       let editor
       if (allowedFileTypes.indexOf(editorFileType) >= 0) {
 
@@ -150,6 +173,7 @@ class IndexPage extends Component {
         <div style={container}> 
             {editor}
         </div>
+        {loading}
       </Layout>
     )
   }
