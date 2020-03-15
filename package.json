@@ -25,12 +25,14 @@
     "react": "^16.8.6",
     "react-ace": "^8.0.0",
     "react-dom": "^16.8.6",
+    "react-file-viewer": "^1.2.1",
     "react-helmet": "^5.2.1",
     "react-images": "^0.5.19",
     "react-scrollspy": "^3.4.0",
     "react-search-box": "^2.0.2",
     "skylink": "^1.0.1-rc.1",
-    "smoothscroll-polyfill": "^0.4.4"
+    "smoothscroll-polyfill": "^0.4.4",
+    "uuid": "^7.0.2"
   },
   "scripts": {
     "deploy": "gatsby clean && gatsby build && firebase deploy",

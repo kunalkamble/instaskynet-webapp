@@ -9,7 +9,7 @@ module.exports = {
   manifestIcon: 'src/assets/img/website-icon.png',
   pathPrefix: `/gatsby-starter-multiverse/`, // This path is subpath of your hosting https://domain/portfolio
   heading: 'Insta Skynet',
-  subHeading: 'Welcome to free internet, built with Siaskynet',
+  subHeading: 'Welcome to free internet, Inspired by Siaskynet',
   // social
   socialLinks: [
     {

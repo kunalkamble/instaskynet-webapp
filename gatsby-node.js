@@ -23,6 +23,10 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
                 test: /ace-builds/,
                 use: loaders.null(),
             },
+            {
+                test: /react-file-viewer/,
+                use: loaders.null(),
+            },
           ],
         },
       })
