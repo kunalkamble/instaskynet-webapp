@@ -5,16 +5,16 @@
 ![InstaSkynet Screenshot](/readme-bg.png)
 
 ## App Links
-- [Skynet Dapp](https://siasky.net/KAA8mgXcjktbpog5HxBHI7s--4Kv3TrwNC93mb-KPxpvog/index.html) - live
+- [Skynet Dapp](https://siasky.net/KACOp4vQTPPnl7oAwYdytrrnNHFAA3gC0Fw99-JyYsPdbg/index.html) - live
 - [InstaSky.net](https://instasky.net) - live
 
 ## Video
-- [Watch Demo Video](https://siasky.net/KAA8mgXcjktbpog5HxBHI7s--4Kv3TrwNC93mb-KPxpvog/index.html?skylink=AACFt-BmqonTdh_ClbHhIzXehfPfq9bIvPXqmPd_13XqHA)
+- [Watch Demo Video](https://siasky.net/KACOp4vQTPPnl7oAwYdytrrnNHFAA3gC0Fw99-JyYsPdbg/index.html?skylink=AACFt-BmqonTdh_ClbHhIzXehfPfq9bIvPXqmPd_13XqHA)
 
 ## Sample Files & Folders to Explore
-- [Sample Folder Explorer](https://siasky.net/KAA8mgXcjktbpog5HxBHI7s--4Kv3TrwNC93mb-KPxpvog/index.html?skylink=CADj1-OWzgAraoBasQrqptNgIHxt7tTp2TkILqPzffRnFw)
-- [Video File Sample](https://siasky.net/KAA8mgXcjktbpog5HxBHI7s--4Kv3TrwNC93mb-KPxpvog/index.html?skylink=AABXVLp1VOP9yqJlJQu2W1gYPv1G0lqhzCx9fmzXdPUHlA)
-- [Demo Video Sample](https://siasky.net/KAA8mgXcjktbpog5HxBHI7s--4Kv3TrwNC93mb-KPxpvog/index.html?skylink=AACFt-BmqonTdh_ClbHhIzXehfPfq9bIvPXqmPd_13XqHA)
+- [Sample Folder Explorer](https://siasky.net/KACOp4vQTPPnl7oAwYdytrrnNHFAA3gC0Fw99-JyYsPdbg/index.html?skylink=CADj1-OWzgAraoBasQrqptNgIHxt7tTp2TkILqPzffRnFw)
+- [Video File Sample](https://siasky.net/KACOp4vQTPPnl7oAwYdytrrnNHFAA3gC0Fw99-JyYsPdbg/index.html?skylink=AABXVLp1VOP9yqJlJQu2W1gYPv1G0lqhzCx9fmzXdPUHlA)
+- [Demo Video Sample](https://siasky.net/KACOp4vQTPPnl7oAwYdytrrnNHFAA3gC0Fw99-JyYsPdbg/index.html?skylink=AACFt-BmqonTdh_ClbHhIzXehfPfq9bIvPXqmPd_13XqHA)
 <br />
 
 ## How to use it
