@@ -38,9 +38,16 @@ Please access the official [Support](https://instasky.net/support) page provided
 
 <br />
 
-### Potential Plugins to integrate
- - https://www.uptickhq.com/react-keyed-file-browser/
- - https://developer.box.com/guides/embed/ui-elements/installation/
- - https://editorjs.io/
- - https://ace.c9.io/
- - https://reactjsexample.com/a-themable-and-configurable-treeview-for-react/
+## Credits
+Skylink Explorer is heavily inspired by the [Siasky.net](https://siasky.net/).
+
+<br />
+
+#### Support us to build opensource code for Sia community, Thank you so much.
+
+### Sia Wallet:
+`cebe7bc312948903d03fb2829076824bc0765d8ade75b3ba66ab389cd3ada6712145449c28c6`
+
+## License
+
+[MIT](LICENSE)
