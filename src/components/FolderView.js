@@ -21,7 +21,7 @@ class FolderView extends Component {
             allowedImageTypes: ['png', 'PNG', 'jpeg', 'jpg', 'bmp', 'gif', 'svg'],
             spanStyles: {
                 position: 'fixed',
-                marginTop: '50px',
+                marginTop: '39px',
                 height: 'calc(100% - 60px)',
                 border: 0
             },

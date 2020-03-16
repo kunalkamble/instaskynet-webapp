@@ -1,10 +1,20 @@
+<img src="./InstaSkynet.png" width="100" height="100">
+
 # [InstaSkynet](https://instasky.net/)
 
+![InstaSkynet Screenshot](/readme-bg.png)
 
 ## App Links
-
+- [Skynet Dapp](https://siasky.net/KAA8mgXcjktbpog5HxBHI7s--4Kv3TrwNC93mb-KPxpvog/index.html) - live
 - [InstaSky.net](https://instasky.net) - live
 
+## Video
+- [Demo](https://siasky.net/KAA8mgXcjktbpog5HxBHI7s--4Kv3TrwNC93mb-KPxpvog/index.html?skylink=AACFt-BmqonTdh_ClbHhIzXehfPfq9bIvPXqmPd_13XqHA)
+
+## Sample Files & Folders to Explore
+- https://siasky.net/CADj1-OWzgAraoBasQrqptNgIHxt7tTp2TkILqPzffRnFw
+- https://siasky.net/AABXVLp1VOP9yqJlJQu2W1gYPv1G0lqhzCx9fmzXdPUHlA
+- https://siasky.net/AACFt-BmqonTdh_ClbHhIzXehfPfq9bIvPXqmPd_13XqHA
 <br />
 
 ## How to use it
