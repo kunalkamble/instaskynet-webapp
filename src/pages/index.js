@@ -8,7 +8,10 @@ import Layout from '../components/Layout';
 import Gallery from '../components/Gallery';
 import FileEditor from '../components/FileEditor';
 import FolderView from '../components/FolderView';
+import queryString from 'query-string';
+import { Player } from 'video-react';
 
+import 'video-react/dist/video-react.css';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 const FileViewer = dynamic(import('react-file-viewer'), {
   ssr: false
@@ -17,8 +20,9 @@ const FileViewer = dynamic(import('react-file-viewer'), {
 class IndexPage extends Component {
   constructor(props) {
     super(props);
+    let params = queryString.parse(this.props.location.search)
     this.state = {
-      baseUrlPath: 'https://siasky.dev/GAD8NUtPi8DcPUKzaoCkZ6NXphtuirH7tBl44FqwflWXnw',
+      baseUrlPath:  `https://siasky.dev/${params.skylink || 'GAD8NUtPi8DcPUKzaoCkZ6NXphtuirH7tBl44FqwflWXnw'}`,
       viewerIsOpen: false,
       galleryImages: [],
       currImg: 0,
@@ -29,9 +33,14 @@ class IndexPage extends Component {
       data: [],
       editorData: '<p>Hello from Skylink Viewer v1.0.1!</p>',
       editorFileType: 'html',
+      supportedExt: ['mp4', 'MP4', 'webm', 'mov', 'pdf', 'csv', 'xls', 'xlsx', 
+        'docx', 'mp3', 'MP3', 'png', 'PNG', 'jpeg', 'jpg', 'bmp', 'gif', 'svg',
+        'javascript', 'css', 'java', 'html', 'scss', 'haml',
+        'php', 'markdown', 'md', 'js', 'json', 'log', 'text'],
       allowedFileTypes: ['javascript', 'css', 'java', 'html', 'scss', 'haml',
                 'php', 'markdown', 'md', 'js', 'json', 'log', 'text'],
-      allowedMediaFiles: ['pdf', 'csv', 'xls', 'xlsx', 'docx', 'mp4', 'MP4', 'webm', 'mp3', 'MP3'],
+      allowedMediaFiles: ['pdf', 'csv', 'xls', 'xlsx', 'docx', 'mp3', 'MP3'],
+      allVideoFileFormat: ['mp4', 'MP4', 'webm', 'mov'],
       allowedImageTypes: ['png', 'PNG', 'jpeg', 'jpg', 'bmp', 'gif', 'svg'],
       container: {
         position: 'fixed',
@@ -61,6 +70,10 @@ class IndexPage extends Component {
         position: 'fixed',
         height: 'calc(100% - 60px)',
         border: 0
+      },
+      playerStyle: {
+        paddingTop: '10px',
+        paddingRight: '10px',
       }
     };
   }
@@ -82,14 +95,32 @@ class IndexPage extends Component {
     console.log('Getting data........')
     this.setState({isLoading: true})
     skylink.explore(this.state.baseUrlPath).then(d => {
+      const extension = d.name.split('.').pop()
       // console.log(d)
-      this.addTextKey(d, 1)
-      setTimeout(()=>{
-        console.log('Setting state for data.......')
-        this.setState((state, props) => {
-          return {data: [d], isLoading: false};
-        });
-      },100)
+      if(extension && this.state.supportedExt.indexOf(extension) >= 0 && d.children.length === 1) {
+        // console.log('extension', extension)
+        d = {...d, ...d.children[0]}
+        d.text = d.name
+        d.isLeaf = true
+        d.id = new Date()
+        delete d.children
+        setTimeout(()=>{
+          // console.log('Setting state for data.......', d)
+          this.setState((state, props) => {
+            return {data: [d], isLoading: false, 
+              editorFileType: d.contenttype.split('/').pop(), 
+              editorData: this.state.baseUrlPath};
+          });
+        },100)
+      } else {
+        this.addTextKey(d, 1)
+        setTimeout(()=>{
+          // console.log('Setting state for data.......', d)
+          this.setState((state, props) => {
+            return {data: [d], isLoading: false,};
+          });
+        },100) 
+      }
     })
   }
 
@@ -115,10 +146,10 @@ class IndexPage extends Component {
   }
 
   render() {
-    const { baseUrlPath, fileViewerStyle,
+    const { baseUrlPath, fileViewerStyle, playerStyle, supportedExt,
       data, container, editorData, editorFileType, headerStyle,
       allowedFileTypes, allowedImageTypes, allowedMediaFiles, isLoading, loadingStyle,
-      headerSearchBox, galleryImages } = this.state;
+      headerSearchBox, galleryImages, allVideoFileFormat } = this.state;
       let loading
       if (isLoading) {
         loading = <Loader
@@ -131,6 +162,7 @@ class IndexPage extends Component {
       } else {
         loading = ''
       }
+      // console.log('editorFileType --> ', editorFileType)
       let editor
       if (allowedFileTypes.indexOf(editorFileType) >= 0) {
 
@@ -140,7 +172,18 @@ class IndexPage extends Component {
         editor = <Gallery 
             images={galleryImages}
           />
+      } else if (allVideoFileFormat.indexOf(editorFileType) >= 0) {
+        editor = <div style={playerStyle}>
+          <Player 
+            playsInline
+            autoPlay
+            src={editorData || baseUrlPath}
+          />
+          {/* <source  />
+        </Player> */}
+        </div>
       } else if (allowedMediaFiles.indexOf(editorFileType) >= 0) {
+        // console.log(editorData)
         editor = <FileViewer
           style={fileViewerStyle}
           fileType={editorFileType}

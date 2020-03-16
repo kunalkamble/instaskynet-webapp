@@ -23,6 +23,7 @@
     "gatsby-plugin-sitemap": "^2.2.10",
     "next": "^9.3.0",
     "node-sass": "^4.12.0",
+    "query-string": "^6.11.1",
     "react": "^16.8.6",
     "react-ace": "^8.0.0",
     "react-dom": "^16.8.6",
@@ -34,7 +35,8 @@
     "react-search-box": "^2.0.2",
     "skylink": "^1.0.1-rc.1",
     "smoothscroll-polyfill": "^0.4.4",
-    "uuid": "^7.0.2"
+    "uuid": "^7.0.2",
+    "video-react": "^0.14.1"
   },
   "scripts": {
     "deploy": "gatsby clean && gatsby build --prefix-paths && firebase deploy",

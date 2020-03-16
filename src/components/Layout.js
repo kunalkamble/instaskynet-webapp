@@ -60,8 +60,8 @@ class Layout extends Component {
             <Helmet
               title={data.site.siteMetadata.title}
               meta={[
-                { name: 'description', content: 'Multiverse' },
-                { name: 'keywords', content: 'site, web' },
+                { name: 'description', content: 'Insta Skynet is an open-source web tool to explore your Skylink for your project folder' },
+                { name: 'keywords', content: 'insta, skynet, skylink, siaskynet, folder explorer, open-source' },
               ]}
             >
               <html lang="en" />
