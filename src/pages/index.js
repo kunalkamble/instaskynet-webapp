@@ -10,6 +10,7 @@ import FileEditor from '../components/FileEditor';
 import FolderView from '../components/FolderView';
 import queryString from 'query-string';
 import { Player } from 'video-react';
+import Playlist from 'react-mp3-player';
 
 import 'video-react/dist/video-react.css';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
@@ -31,6 +32,7 @@ class IndexPage extends Component {
       },
       isLoading: false,
       data: [],
+      playlist: [],
       editorData: '<p>Hello from Skylink Viewer v1.0.1!</p>',
       editorFileType: 'html',
       supportedExt: ['mp4', 'MP4', 'webm', 'mov', 'pdf', 'csv', 'xls', 'xlsx', 
@@ -39,16 +41,17 @@ class IndexPage extends Component {
         'php', 'markdown', 'md', 'js', 'json', 'log', 'text'],
       allowedFileTypes: ['javascript', 'css', 'java', 'html', 'scss', 'haml',
                 'php', 'markdown', 'md', 'js', 'json', 'log', 'text'],
-      allowedMediaFiles: ['pdf', 'csv', 'xls', 'xlsx', 'docx', 'mp3', 'MP3'],
+      allowedMediaFiles: ['pdf', 'csv', 'xls', 'xlsx', 'docx'],
+      allowedAudioFiles: ['mp3', 'MP3'],
       allVideoFileFormat: ['mp4', 'MP4', 'webm', 'mov'],
       allowedImageTypes: ['png', 'PNG', 'jpeg', 'jpg', 'bmp', 'gif', 'svg'],
       container: {
         position: 'fixed',
         overflowY: 'auto',
-        height: '100%',
-        width: 'calc(100% - 310px)',
+        height: 'calc(100% - 110px)',
+        width: 'calc(100% - 320px)',
         marginLeft: '310px',
-        marginTop: '40px',
+        marginTop: '50px',
       },
       loadingStyle: {
         zIndex: '9',
@@ -72,8 +75,16 @@ class IndexPage extends Component {
         border: 0
       },
       playerStyle: {
-        paddingTop: '10px',
-        paddingRight: '10px',
+        paddingTop: '0px',
+        paddingRight: '0px',
+      },
+      playlistOverideStylingOpts: {
+        offset : {
+          left : 300
+        },
+        breakpoint : {
+          maxWidth : 768
+          }
       }
     };
   }
@@ -147,9 +158,9 @@ class IndexPage extends Component {
 
   render() {
     const { baseUrlPath, fileViewerStyle, playerStyle, supportedExt,
-      data, container, editorData, editorFileType, headerStyle,
+      data, container, editorData, editorFileType, headerStyle, playlist,
       allowedFileTypes, allowedImageTypes, allowedMediaFiles, isLoading, loadingStyle,
-      headerSearchBox, galleryImages, allVideoFileFormat } = this.state;
+      headerSearchBox, galleryImages, allVideoFileFormat, allowedAudioFiles } = this.state;
       let loading
       if (isLoading) {
         loading = <Loader
@@ -179,8 +190,10 @@ class IndexPage extends Component {
             autoPlay
             src={editorData || baseUrlPath}
           />
-          {/* <source  />
-        </Player> */}
+        </div>
+      } else if (allowedAudioFiles.indexOf(editorFileType) >= 0) {
+        editor = <div style={playerStyle}>
+          <Playlist tracks={editorData}/>
         </div>
       } else if (allowedMediaFiles.indexOf(editorFileType) >= 0) {
         // console.log(editorData)

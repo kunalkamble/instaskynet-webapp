@@ -18,11 +18,12 @@ class FolderView extends Component {
             allowedFileTypes: ['javascript', 'css', 'java', 'html', 'scss', 'haml',
                 'php', 'markdown', 'md', 'js', 'json', 'log', 'text'],
             allowedMediaFiles: ['pdf', 'csv', 'xls', 'xlsx', 'docx', 'mp4', 'MP4', 'webm', 'mp3', 'MP3'],
+            allowedAudioFiles: ['mp3', 'MP3'],
             allowedImageTypes: ['png', 'PNG', 'jpeg', 'jpg', 'bmp', 'gif', 'svg'],
             spanStyles: {
                 position: 'fixed',
                 marginTop: '39px',
-                height: 'calc(100% - 60px)',
+                height: 'calc(100% - 98px)',
                 border: 0
             },
             fileSearchBoxStyle: {
@@ -62,10 +63,10 @@ class FolderView extends Component {
 
     onSelectItems(item) {
         console.log('Item clicked: ', item.name)
+        const { updateLinkData } = this.props
+        const { allowedFileTypes, allowedImageTypes, allowedMediaFiles, allowedAudioFiles  } = this.state
         if (item.type == 'file') {
-            const { allowedFileTypes, allowedImageTypes, allowedMediaFiles } = this.state
-            const { updateLinkData } = this.props
-            const filePath = `${this.props.baseUrlPath}/${item.path}`
+            let filePath = `${this.props.baseUrlPath}/${item.path}`
             let fileExtension = item.path.split('.').pop()
             // console.log('fileExtension', fileExtension)
             if (allowedFileTypes.indexOf(fileExtension) >= 0) {
@@ -91,34 +92,62 @@ class FolderView extends Component {
                 }]
                 updateLinkData({ galleryImages: image, editorFileType: fileExtension });
             } else if (allowedMediaFiles.indexOf(fileExtension) >= 0) {
+                const track = [{
+                    img: 'https://siasky.net/MACcpP6dUunp0qsf20JykOrSMHkTsoVy5U_gMlg8ygzMNw',
+                    name: item.name,
+                    desc: item.name,
+                    src: filePath
+                  }]
+                if(allowedAudioFiles.indexOf(fileExtension) >= 0) filePath = track
                 updateLinkData({ editorData: filePath, editorFileType: fileExtension });
             } else {
                 updateLinkData({ editorData: '<h2>File format is not supported</h2>', editorFileType: fileExtension })
             }
         } else if (item.type === 'folder') {
-            console.log('Folder clicked: ', item.name)
-            const { allowedImageTypes } = this.state
-            const { updateLinkData } = this.props
-            const images = []
-            item.children.map(child => {
-                if (child.type == 'file') {
-                    // console.log(child)
-                    let fileExtension = child.path.split('.').pop()
-                    // console.log('fileExtension', fileExtension, child)
-                    if (allowedImageTypes.indexOf(fileExtension) >= 0) {
+            const { fileExtension } = this.state
+            if(item.children[0].name.split('.').pop() === 'mp3') {
+                console.log('Audio Folder clicked: ', item.name)
+                const playlist = []
+                item.children.map(child => {
+                    if (child.type == 'file') {
                         const filePath = `${this.props.baseUrlPath}/${child.path}`
-                        images.push({
-                            title: filePath.split('/').pop().split('.')[0],
-                            desc: filePath.split('/').pop(),
-                            thumbnail: filePath,
+                        playlist.push({
+                            img: 'https://siasky.net/MACcpP6dUunp0qsf20JykOrSMHkTsoVy5U_gMlg8ygzMNw',
+                            name: child.name,
+                            desc: child.name,
                             src: filePath
-                        })
+                            })
                     }
+                })
+                console.log('playlist', playlist)
+                if (playlist.length) {
+                    updateLinkData({ editorData: playlist, editorFileType: 'mp3' })
                 }
-            })
-            if (images.length) {
-                updateLinkData({ galleryImages: images, editorFileType: 'jpg' })
+            } else {
+                const { allowedImageTypes } = this.state
+                const images = []
+                item.children.map(child => {
+                    if (child.type == 'file') {
+                        // console.log(child)
+                        let fileExtension = child.path.split('.').pop()
+                        // console.log('fileExtension', fileExtension, child)
+                        if (allowedImageTypes.indexOf(fileExtension) >= 0) {
+                            const filePath = `${this.props.baseUrlPath}/${child.path}`
+                            images.push({
+                                title: filePath.split('/').pop().split('.')[0],
+                                desc: filePath.split('/').pop(),
+                                thumbnail: filePath,
+                                src: filePath
+                            })
+                        }
+                    }
+                })
+                if (images.length) {
+                    updateLinkData({ galleryImages: images, editorFileType: 'jpg' })
+                }
             }
+
+            
             // console.log(images)   
         }
     }

@@ -6722,6 +6722,11 @@ hosted-git-info@^3.0.2:
   dependencies:
     lru-cache "^5.1.1"
 
+howler@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/howler/-/howler-2.1.3.tgz#07c88618f8767e879407a4d647fe2d6d5f15f121"
+  integrity sha512-PSGbOi1EYgw80C5UQbxtJM7TmzD+giJunIMBYyH3RVzHZx2fZLYBoes0SpVVHi/SFa1GoNtgXj/j6I7NOKYBxQ==
+
 hpack.js@^2.1.6:
   version "2.1.6"
   resolved "https://registry.yarnpkg.com/hpack.js/-/hpack.js-2.1.6.tgz#87774c0949e513f42e84575b3c45681fade2a0b2"
@@ -11151,6 +11156,11 @@ react-loader-spinner@^3.1.5:
   dependencies:
     babel-runtime "^6.26.0"
     prop-types "^15.6.2"
+
+react-mp3-player@^0.8.2:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/react-mp3-player/-/react-mp3-player-0.8.2.tgz#b690c30946832f637b0fdb4bc78f333fc6efdacc"
+  integrity sha512-/Mn5ppwMeeAwN9AOFcXlIbHD3FHIdGHzrup990vUZGPnwfNyWQd3Ya4GKbkOOkI72KThDnMhB+/GjuG9e0wJzg==
 
 react-prop-toggle@^1.0.2:
   version "1.0.2"

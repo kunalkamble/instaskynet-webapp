@@ -30,7 +30,7 @@ class FileEditor extends Component {
     super();
     this.state = {
         aceEditorStyles: {
-            height: 'calc(100% - 99px)',
+            height: 'calc(100% - 10px)',
             width: '100%',
           }
       };
