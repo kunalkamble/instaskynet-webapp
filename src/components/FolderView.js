@@ -89,7 +89,7 @@ class FolderView extends Component {
                     thumbnail: filePath,
                     src: filePath
                 }]
-                updateLinkData({ galleryImages: image });
+                updateLinkData({ galleryImages: image, editorFileType: fileExtension });
             } else if (allowedMediaFiles.indexOf(fileExtension) >= 0) {
                 updateLinkData({ editorData: filePath, editorFileType: fileExtension });
             } else {
