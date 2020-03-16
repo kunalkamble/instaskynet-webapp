@@ -9,12 +9,12 @@
 - [InstaSky.net](https://instasky.net) - live
 
 ## Video
-- [Demo](https://siasky.net/KAA8mgXcjktbpog5HxBHI7s--4Kv3TrwNC93mb-KPxpvog/index.html?skylink=AACFt-BmqonTdh_ClbHhIzXehfPfq9bIvPXqmPd_13XqHA)
+- [Watch Demo Video](https://siasky.net/KAA8mgXcjktbpog5HxBHI7s--4Kv3TrwNC93mb-KPxpvog/index.html?skylink=AACFt-BmqonTdh_ClbHhIzXehfPfq9bIvPXqmPd_13XqHA)
 
 ## Sample Files & Folders to Explore
-- https://siasky.net/CADj1-OWzgAraoBasQrqptNgIHxt7tTp2TkILqPzffRnFw
-- https://siasky.net/AABXVLp1VOP9yqJlJQu2W1gYPv1G0lqhzCx9fmzXdPUHlA
-- https://siasky.net/AACFt-BmqonTdh_ClbHhIzXehfPfq9bIvPXqmPd_13XqHA
+- [Sample Folder Explorer](https://siasky.net/KAA8mgXcjktbpog5HxBHI7s--4Kv3TrwNC93mb-KPxpvog/index.html?skylink=CADj1-OWzgAraoBasQrqptNgIHxt7tTp2TkILqPzffRnFw)
+- [Video File Sample](https://siasky.net/KAA8mgXcjktbpog5HxBHI7s--4Kv3TrwNC93mb-KPxpvog/index.html?skylink=AABXVLp1VOP9yqJlJQu2W1gYPv1G0lqhzCx9fmzXdPUHlA)
+- [Demo Video Sample](https://siasky.net/KAA8mgXcjktbpog5HxBHI7s--4Kv3TrwNC93mb-KPxpvog/index.html?skylink=AACFt-BmqonTdh_ClbHhIzXehfPfq9bIvPXqmPd_13XqHA)
 <br />
 
 ## How to use it
