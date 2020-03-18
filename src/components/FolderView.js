@@ -157,17 +157,9 @@ class FolderView extends Component {
         const { spanStyles, parentStyle, fileSearchBoxStyle, fileName } = this.state
         return (
             <div style={parentStyle}>
-                {/* <div style={fileSearchBoxStyle}>
-                    <ReactSearchBox
-                        id="fileSearch"
-                        placeholder="Search for File or Folder"
-                        value={fileName}
-                        onChange={(searchText) => this.filterFileTree(searchText)}
-                    />
-                </div> */}
-
                 <TreeView
                     ref="treeview"
+                    className="second-step"
                     items={data}
                     onSelectItem={this.onSelectItems.bind(this)}
                     theme="moonlight"

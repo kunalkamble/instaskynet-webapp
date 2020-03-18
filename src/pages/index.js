@@ -11,6 +11,7 @@ import FolderView from '../components/FolderView';
 import queryString from 'query-string';
 import { Player } from 'video-react';
 import Playlist from 'react-mp3-player';
+import Joyride from 'react-joyride';
 
 import 'video-react/dist/video-react.css';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
@@ -32,6 +33,27 @@ class IndexPage extends Component {
       },
       isLoading: false,
       data: [],
+      steps: [
+        {
+          target: '.first-step',
+          content: 'Paste your Skylink here!',
+          showProgress: true,
+        },
+        {
+          target: '.second-step',
+          content: 'Here it will load folder structure!',
+          placement: 'right',
+          showProgress: true
+        },
+        {
+          target: '.third-step',
+          content: 'Here it will load the file you selected!',
+          showProgress: true,
+          locale: {
+            last: 'Done'
+          }
+        }
+      ],
       playlist: [],
       editorData: '<p>Hello from Skylink Viewer v1.0.1!</p>',
       editorFileType: 'html',
@@ -66,8 +88,8 @@ class IndexPage extends Component {
         zIndex: 1
       },
       headerSearchBox: {
-        marginLeft: '150px',
-        width: '300px'
+        // marginLeft: '150px',
+        // width: '300px'
       },
       spanStyles: {
         position: 'fixed',
@@ -101,6 +123,8 @@ class IndexPage extends Component {
         }
     }
   }
+
+  handleFocus = (event) => event.target.select();
 
   getData() {
     console.log('Getting data........')
@@ -160,7 +184,7 @@ class IndexPage extends Component {
     const { baseUrlPath, fileViewerStyle, playerStyle, supportedExt,
       data, container, editorData, editorFileType, headerStyle, playlist,
       allowedFileTypes, allowedImageTypes, allowedMediaFiles, isLoading, loadingStyle,
-      headerSearchBox, galleryImages, allVideoFileFormat, allowedAudioFiles } = this.state;
+      headerSearchBox, galleryImages, allVideoFileFormat, allowedAudioFiles, steps } = this.state;
       let loading
       if (isLoading) {
         loading = <Loader
@@ -210,22 +234,27 @@ class IndexPage extends Component {
     return (
       <Layout>
         <div style={headerStyle}>
-          <ReactSearchBox
+          <div className="first-step">
+          <ReactSearchBox 
             style={headerSearchBox}
             placeholder="Paste your Skylink here"
             value={baseUrlPath}
+            onFocus={this.handleFocus}
             onChange={ (link) => this.onLinkChange(link)}
           />
+          </div>
+          
         </div>
         <FolderView 
           data={data} 
           baseUrlPath={baseUrlPath} 
           updateLinkData={this.updateLinkData.bind(this)} 
         />
-        <div style={container}> 
+        <div className="third-step" style={container} > 
             {editor}
         </div>
         {loading}
+        <Joyride steps={steps} continuous={true}  />
       </Layout>
     )
   }
